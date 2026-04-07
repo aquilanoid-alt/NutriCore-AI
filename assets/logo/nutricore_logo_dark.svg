@@ -1,0 +1,72 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leafBaseDark" x1="212" y1="92" x2="414" y2="338" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#AEEA46"/>
+      <stop offset="0.42" stop-color="#49D05B"/>
+      <stop offset="1" stop-color="#0C6B38"/>
+    </linearGradient>
+    <linearGradient id="leafHighlightDark" x1="154" y1="98" x2="369" y2="256" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8FF7B" stop-opacity="0.86"/>
+      <stop offset="1" stop-color="#D8FF7B" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="circuitBaseDark" x1="409" y1="93" x2="649" y2="362" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#86F1E9"/>
+      <stop offset="0.45" stop-color="#40A8FF"/>
+      <stop offset="1" stop-color="#153389"/>
+    </linearGradient>
+    <linearGradient id="nutriTextDark" x1="133" y1="0" x2="451" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#95EF54"/>
+      <stop offset="0.55" stop-color="#49D05B"/>
+      <stop offset="1" stop-color="#28BC8F"/>
+    </linearGradient>
+    <linearGradient id="coreTextDark" x1="455" y1="0" x2="776" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#95B9FF"/>
+      <stop offset="1" stop-color="#E4EBFF"/>
+    </linearGradient>
+    <clipPath id="iconClipDark">
+      <circle cx="512" cy="270" r="182"/>
+    </clipPath>
+    <filter id="shadowDark" x="160" y="70" width="706" height="722" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="18"/>
+      <feGaussianBlur stdDeviation="24"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0157 0 0 0 0 0.0392 0 0 0 0 0.1059 0 0 0 0.38 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" fill="#07111F"/>
+
+  <g filter="url(#shadowDark)">
+    <circle cx="512" cy="270" r="182" fill="#0B1830"/>
+    <g clip-path="url(#iconClipDark)">
+      <rect x="330" y="88" width="182" height="364" fill="url(#leafBaseDark)"/>
+      <rect x="512" y="88" width="182" height="364" fill="url(#circuitBaseDark)"/>
+      <path d="M524 80C503 183 488 242 429 304C380 356 368 420 375 468H348C336 376 355 295 412 239C449 204 466 148 483 79L524 80Z" fill="white"/>
+      <path d="M379 296C391 243 426 199 484 168C439 212 419 249 408 296H379Z" fill="white"/>
+      <path d="M290 142C336 100 395 86 493 91C383 100 316 133 289 196L290 142Z" fill="url(#leafHighlightDark)" fill-opacity="0.72"/>
+
+      <path d="M551 137V452H571V137H551Z" fill="white"/>
+      <path d="M608 168V452H628V168H608Z" fill="white"/>
+      <path d="M665 200V452H685V200H665Z" fill="white"/>
+      <path d="M546 266L608 220V168H628V231L571 276V327H551V266H546Z" fill="white"/>
+      <path d="M602 340L665 294V200H685V307L628 352V452H602V340Z" fill="white"/>
+
+      <circle cx="561" cy="327" r="17" fill="white"/>
+      <circle cx="561" cy="327" r="8" fill="#2C7DD7"/>
+      <circle cx="618" cy="168" r="17" fill="white"/>
+      <circle cx="618" cy="168" r="8" fill="#2C7DD7"/>
+      <circle cx="675" cy="200" r="17" fill="white"/>
+      <circle cx="675" cy="200" r="8" fill="#2C7DD7"/>
+    </g>
+  </g>
+
+  <text x="129" y="498" dominant-baseline="hanging" font-size="146" font-weight="700" font-family="Poppins, Avenir Next, Helvetica Neue, Arial, sans-serif" letter-spacing="-5">
+    <tspan fill="url(#nutriTextDark)">Nutri</tspan><tspan fill="url(#coreTextDark)">Core</tspan>
+  </text>
+  <text x="947" y="568" text-anchor="end" font-size="54" font-weight="700" font-family="Poppins, Avenir Next, Helvetica Neue, Arial, sans-serif" letter-spacing="-1" fill="#C8D2E2">AI</text>
+  <line x1="126" y1="670" x2="896" y2="670" stroke="#243147" stroke-width="3"/>
+  <text x="512" y="764" text-anchor="middle" font-size="32" font-weight="600" font-family="Poppins, Avenir Next, Helvetica Neue, Arial, sans-serif" letter-spacing="5" fill="#D6DDEA">NUTRITION • HEALTH • INTELLIGENCE</text>
+</svg>

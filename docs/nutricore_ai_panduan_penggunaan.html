@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panduan Lengkap NutriCore AI</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --card: #ffffff;
+      --ink: #10233f;
+      --muted: #60708b;
+      --green: #2fb34a;
+      --green-soft: #7fd33e;
+      --blue: #1f4e94;
+      --blue-deep: #102a6d;
+      --line: #dde4ee;
+      --beige: #efe7d8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #f7f5ef 0%, #eef5f4 100%);
+      color: var(--ink);
+      line-height: 1.58;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 20px;
+      background: var(--card);
+      padding: 22mm 18mm 20mm;
+      box-shadow: 0 14px 40px rgba(16, 35, 63, 0.08);
+      position: relative;
+    }
+
+    .cover {
+      background:
+        radial-gradient(circle at top right, rgba(104, 211, 145, 0.20), transparent 28%),
+        radial-gradient(circle at top left, rgba(50, 130, 246, 0.14), transparent 26%),
+        linear-gradient(180deg, #fbfaf6 0%, #f4f8f7 100%);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .brand svg {
+      width: 76px;
+      height: 76px;
+      flex: none;
+    }
+
+    .brand-copy h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -0.5px;
+      color: var(--blue-deep);
+    }
+
+    .brand-copy p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      padding: 24px 0 16px;
+    }
+
+    .hero h2 {
+      margin: 0 0 14px;
+      font-size: 36px;
+      line-height: 1.14;
+      letter-spacing: -0.8px;
+      max-width: 640px;
+    }
+
+    .hero .lead {
+      max-width: 720px;
+      font-size: 17px;
+      color: #38506f;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0 18px;
+    }
+
+    .meta-card {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .meta-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue-deep);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .quote {
+      margin-top: 22px;
+      padding: 18px 22px;
+      border-left: 6px solid var(--green);
+      background: linear-gradient(90deg, rgba(127, 211, 62, 0.13), rgba(31, 78, 148, 0.05));
+      border-radius: 18px;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--blue-deep);
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 24px;
+      color: var(--blue-deep);
+      letter-spacing: -0.4px;
+    }
+
+    .subhead {
+      margin: 22px 0 10px;
+      font-size: 18px;
+      color: var(--blue);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(47, 179, 74, 0.55), rgba(31, 78, 148, 0.14));
+      margin: 18px 0 22px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      background: #fcfcfb;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 18px;
+    }
+
+    .panel.soft {
+      background: linear-gradient(180deg, rgba(127, 211, 62, 0.09), rgba(31, 78, 148, 0.03));
+    }
+
+    ul, ol {
+      margin: 10px 0 0 20px;
+      padding: 0;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 0 8px 8px 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f0f7f0;
+      color: #1f6c34;
+      border: 1px solid #d4ebd6;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      display: flex;
+      gap: 14px;
+      margin: 16px 0;
+      align-items: flex-start;
+    }
+
+    .step .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--green-soft), var(--green));
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex: none;
+      margin-top: 2px;
+    }
+
+    .step .content strong {
+      color: var(--blue-deep);
+    }
+
+    .footer {
+      position: absolute;
+      left: 18mm;
+      right: 18mm;
+      bottom: 10mm;
+      display: flex;
+      justify-content: space-between;
+      color: #7a879a;
+      font-size: 11px;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+    }
+
+    .info-callout {
+      background: linear-gradient(180deg, rgba(16, 42, 109, 0.95), rgba(31, 78, 148, 0.95));
+      color: white;
+      border-radius: 20px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+
+    .info-callout h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 18px;
+      margin-top: 12px;
+    }
+
+    .check {
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      font-size: 14px;
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .table th, .table td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      background: #f4f8fb;
+      color: var(--blue-deep);
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <section class="page cover">
+    <div class="brand">
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="leafBase" x1="72" y1="57" x2="255" y2="282" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#A4DA39"/>
+            <stop offset="0.4" stop-color="#31B648"/>
+            <stop offset="1" stop-color="#065E2E"/>
+          </linearGradient>
+          <linearGradient id="leafHighlight" x1="32" y1="48" x2="228" y2="210" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#B7ED52" stop-opacity="0.95"/>
+            <stop offset="1" stop-color="#B7ED52" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="circuitBase" x1="256" y1="53" x2="491" y2="309" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#66D8D2"/>
+            <stop offset="0.45" stop-color="#1E86D6"/>
+            <stop offset="1" stop-color="#0A1B59"/>
+          </linearGradient>
+          <clipPath id="iconClip">
+            <circle cx="256" cy="256" r="200"/>
+          </clipPath>
+        </defs>
+        <circle cx="256" cy="256" r="200" fill="white"/>
+        <g clip-path="url(#iconClip)">
+          <rect x="56" y="56" width="200" height="400" fill="url(#leafBase)"/>
+          <rect x="256" y="56" width="200" height="400" fill="url(#circuitBase)"/>
+          <path d="M270 47C247 158 230 221 166 289C113 348 100 417 108 476H79C66 378 85 291 147 232C188 193 206 133 224 45L270 47Z" fill="white"/>
+          <path d="M112 281C126 224 164 177 227 142C179 189 157 232 145 281H112Z" fill="white"/>
+          <path d="M15 114C66 67 131 51 241 56C118 67 44 104 14 174L15 114Z" fill="url(#leafHighlight)" fill-opacity="0.72"/>
+          <path d="M298 104V456H319V104H298Z" fill="white"/>
+          <path d="M361 138V456H383V138H361Z" fill="white"/>
+          <path d="M424 175V456H446V175H424Z" fill="white"/>
+          <path d="M292 247L361 195V138H383V209L319 260V324H298V247H292Z" fill="white"/>
+          <path d="M355 337L424 287V175H446V301L382 351V456H355V337Z" fill="white"/>
+          <circle cx="309" cy="324" r="18" fill="white"/>
+          <circle cx="309" cy="324" r="8.5" fill="#2C7DD7"/>
+          <circle cx="372" cy="138" r="18" fill="white"/>
+          <circle cx="372" cy="138" r="8.5" fill="#2C7DD7"/>
+          <circle cx="435" cy="175" r="18" fill="white"/>
+          <circle cx="435" cy="175" r="8.5" fill="#2C7DD7"/>
+        </g>
+      </svg>
+      <div class="brand-copy">
+        <h1>NutriCore AI</h1>
+        <p>Personal Metabolic Intelligence System</p>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h2>Panduan Lengkap Penggunaan Aplikasi</h2>
+      <p class="lead">
+        Panduan ini disusun agar mudah dipahami oleh semua kalangan, mulai dari masyarakat umum,
+        pasien, keluarga, petugas gizi, hingga tenaga kesehatan lain yang menggunakan NutriCore AI
+        sebagai alat bantu edukasi, pemantauan, dan pengambilan keputusan berbasis nutrisi.
+      </p>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-card">
+        <strong>Ditujukan Untuk</strong>
+        Masyarakat umum, pasien dengan penyakit kronis, petugas gizi, perawat, dokter, dan tenaga kesehatan lain.
+      </div>
+      <div class="meta-card">
+        <strong>Dikembangkan Oleh</strong>
+        dr Theresia AYH
+      </div>
+      <div class="meta-card">
+        <strong>Bulan & Tahun</strong>
+        April 2026
+      </div>
+    </div>
+
+    <div class="quote">
+      “Understand Your Body, Live Better.”
+    </div>
+
+    <div class="info-callout">
+      <h3>Akses Mudah Di Dalam Aplikasi</h3>
+      <p>
+        Panduan ini dirancang agar dapat ditampilkan pada menu <strong>Pusat Bantuan / Panduan</strong> di aplikasi,
+        dibuka kapan saja, dibagikan melalui <strong>WhatsApp</strong> atau <strong>Email</strong>, dan langsung
+        <strong>dicetak</strong> karena tersedia dalam format PDF.
+      </p>
+      <div class="checklist">
+        <div class="check">Bisa dibuka dari halaman Profil atau Bantuan</div>
+        <div class="check">Bisa diunduh sebagai PDF</div>
+        <div class="check">Bisa dibagikan ke WhatsApp</div>
+        <div class="check">Bisa dibagikan ke Email</div>
+        <div class="check">Bisa dicetak untuk edukasi pasien</div>
+        <div class="check">Cocok untuk edukasi individu maupun klinik</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 1</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2 class="section-title">1. Latar Belakang &amp; Sejarah Pembuatan</h2>
+    <div class="divider"></div>
+    <p>
+      NutriCore AI lahir dari realitas yang sangat sering ditemui dalam praktik klinis sehari-hari.
+      Banyak individu, baik yang sehat maupun yang memiliki penyakit, mengalami kesulitan dalam memahami
+      kebutuhan tubuhnya sendiri. Informasi tentang diet dan kesehatan tersedia sangat luas, namun sering kali
+      terlalu kompleks, tidak terintegrasi, bahkan saling bertentangan.
+    </p>
+    <p>
+      Keadaan ini menjadi semakin sulit pada pasien dengan lebih dari satu penyakit, seperti diabetes, hipertensi,
+      dan gangguan ginjal, di mana setiap kondisi memiliki aturan diet yang berbeda dan berpotensi saling bertabrakan.
+      Sebagai seorang dokter, pengembang melihat langsung bahwa pasien sering merasa bingung harus makan apa,
+      rekomendasi diet sulit diterapkan dalam kehidupan sehari-hari, dan pendekatan yang tersedia belum cukup personal.
+    </p>
+    <div class="panel soft">
+      <strong>Gagasan utama NutriCore AI:</strong>
+      <p>
+        Menghadirkan sebuah sistem yang mampu memahami tubuh manusia secara menyeluruh, lalu menerjemahkannya
+        menjadi panduan sederhana yang bisa dijalani setiap hari.
+      </p>
+    </div>
+    <p>
+      NutriCore AI dikembangkan sebagai jawaban atas kebutuhan tersebut dengan menggabungkan ilmu medis, nutrisi,
+      dan kecerdasan buatan dalam satu sistem yang praktis, personal, dan mudah digunakan.
+    </p>
+
+    <h3 class="subhead">2. Arti Nama</h3>
+    <div class="grid-2">
+      <div class="panel">
+        <strong>Nutri</strong>
+        <p>Menggambarkan nutrisi sebagai fondasi utama kesehatan dan kehidupan.</p>
+      </div>
+      <div class="panel">
+        <strong>Core</strong>
+        <p>Melambangkan inti tubuh manusia: metabolisme, keseimbangan internal, dan pusat kendali kesehatan.</p>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:18px;">
+      <strong>AI (Artificial Intelligence)</strong>
+      <p>
+        Mewakili kecerdasan sistem yang mampu menganalisis, menyesuaikan, dan memberikan rekomendasi secara personal.
+      </p>
+      <p><strong>Makna keseluruhan:</strong> Teknologi cerdas yang membantu manusia memahami dan merawat inti kesehatannya.</p>
+    </div>
+
+    <h3 class="subhead">3. Arti &amp; Filosofi Logo</h3>
+    <div>
+      <span class="tag">Daun: kehidupan, pertumbuhan, pendekatan alami</span>
+      <span class="tag">Sirkuit: teknologi, AI, presisi</span>
+      <span class="tag">Lingkaran: keseimbangan, kesinambungan, integrasi</span>
+      <span class="tag">Hijau: kesehatan dan harapan</span>
+      <span class="tag">Biru: kepercayaan dan profesionalisme</span>
+      <span class="tag">Putih/Abu: sederhana, bersih, modern</span>
+    </div>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 2</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2 class="section-title">4. Tujuan Pembuatan Aplikasi</h2>
+    <div class="divider"></div>
+    <div class="grid-2">
+      <div class="panel">
+        <strong>Tujuan Utama</strong>
+        <ul>
+          <li>Membantu individu memahami kebutuhan tubuhnya.</li>
+          <li>Membantu mencapai keseimbangan metabolik.</li>
+          <li>Mendukung hidup sehat secara berkelanjutan.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <strong>Tujuan Klinis</strong>
+        <ul>
+          <li>Membantu pengelolaan penyakit berbasis nutrisi.</li>
+          <li>Mengintegrasikan guideline medis menjadi satu rekomendasi yang tidak konflik.</li>
+          <li>Mendukung edukasi pasien secara praktis.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel soft" style="margin-top:18px;">
+      <strong>Tujuan Emosional</strong>
+      <ul>
+        <li>Mengurangi kebingungan dalam memilih makanan.</li>
+        <li>Mengurangi rasa takut “salah makan”.</li>
+        <li>Memberikan rasa didampingi dan dipahami.</li>
+      </ul>
+    </div>
+
+    <h3 class="subhead">5. Visi &amp; Misi</h3>
+    <div class="panel">
+      <strong>Visi</strong>
+      <p>
+        Menjadi sistem kesehatan berbasis nutrisi dan AI yang membantu setiap individu memahami tubuhnya
+        dan hidup lebih sehat secara berkelanjutan.
+      </p>
+      <strong>Misi</strong>
+      <ul>
+        <li>Menyederhanakan ilmu kesehatan menjadi panduan praktis.</li>
+        <li>Memberikan rekomendasi yang personal dan akurat.</li>
+        <li>Mengintegrasikan teknologi dengan pendekatan humanis.</li>
+        <li>Mendukung perubahan gaya hidup jangka panjang.</li>
+      </ul>
+    </div>
+
+    <h3 class="subhead">6. Konsep Utama Sistem</h3>
+    <div class="quote">“Complex Intelligence, Simple Experience”</div>
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="panel">
+        <strong>Backend</strong>
+        <p>Kompleks dan cerdas: AI, perhitungan klinis, serta multi-condition engine.</p>
+      </div>
+      <div class="panel">
+        <strong>Frontend</strong>
+        <p>Sederhana, intuitif, tidak membingungkan, dan nyaman digunakan berbagai usia.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 3</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2 class="section-title">7. Fitur Utama Aplikasi</h2>
+    <div class="divider"></div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="content">
+          <strong>Perhitungan Kebutuhan Gizi</strong>
+          <p>Menghitung BMR, TDEE, distribusi makronutrien, serta kebutuhan cairan sesuai profil pengguna.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="content">
+          <strong>Multi-Condition Clinical Engine</strong>
+          <p>Mengelola lebih dari satu penyakit sekaligus, menghindari konflik antar diet, dan menentukan prioritas klinis otomatis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="content">
+          <strong>Rekomendasi Resep Otomatis</strong>
+          <p>Memberikan resep berdasarkan bahan yang dimiliki pengguna dan menyesuaikan dengan kebutuhan nutrisi serta kondisi medis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="content">
+          <strong>Tracking Harian</strong>
+          <p>Mencatat asupan kalori, makronutrien, cairan, aktivitas, serta progres berat badan pengguna.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="content">
+          <strong>AI Food Recognition</strong>
+          <p>Menganalisis foto makanan, memperkirakan kalori, dan menilai kesesuaian makanan dengan target diet.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">6</div>
+        <div class="content">
+          <strong>Rekomendasi Olahraga</strong>
+          <p>Memberikan saran olahraga berdasarkan kondisi kesehatan, tujuan, dan tingkat kebugaran.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">7</div>
+        <div class="content">
+          <strong>Smart Health Calendar</strong>
+          <p>Menyusun jadwal makan, olahraga, minum air, dan pengingat lain agar rutinitas lebih teratur.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">8. Nilai Inti</h3>
+    <div>
+      <span class="tag">Clarity</span>
+      <span class="tag">Accuracy</span>
+      <span class="tag">Humanity</span>
+      <span class="tag">Personalization</span>
+      <span class="tag">Sustainability</span>
+    </div>
+
+    <h3 class="subhead">9. Identitas Visual &amp; Karakter Aplikasi</h3>
+    <div class="panel">
+      <p>
+        NutriCore AI memiliki gaya minimalis, modern, elegan, tenang, cerdas, dan tidak menghakimi.
+        Aplikasi dirancang agar terasa seperti asisten pribadi yang membantu, bukan alat medis yang menakutkan.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 4</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2 class="section-title">10. Cara Menggunakan Aplikasi</h2>
+    <div class="divider"></div>
+    <h3 class="subhead">A. Untuk Masyarakat Umum / Pasien</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="content">
+          <strong>Buat akun dan lengkapi profil</strong>
+          <p>Isi usia, jenis kelamin, tinggi, berat, aktivitas, tujuan kesehatan, dan kondisi medis bila ada.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="content">
+          <strong>Lihat target harian</strong>
+          <p>Aplikasi akan menampilkan target kalori, protein, karbohidrat, lemak, cairan, dan batas nutrisi lain.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="content">
+          <strong>Catat makanan</strong>
+          <p>Masukkan makanan secara manual, dengan teks sederhana, atau lewat foto makanan.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="content">
+          <strong>Buka rekomendasi resep</strong>
+          <p>Masukkan bahan seperti “tempe” atau “ayam”, lalu aplikasi menyiapkan resep yang sesuai kondisi Anda.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="content">
+          <strong>Ikuti jadwal harian</strong>
+          <p>Gunakan pengingat minum air, makan, dan olahraga agar lebih konsisten.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">B. Untuk Petugas Gizi</h3>
+    <div class="panel">
+      <ul>
+        <li>Gunakan NutriCore AI sebagai alat bantu edukasi pasien sehari-hari.</li>
+        <li>Tinjau target nutrisi dan ringkasan kondisi pasien sebelum memberikan konseling.</li>
+        <li>Bandingkan catatan makan pasien dengan target untuk mempermudah evaluasi kepatuhan.</li>
+        <li>Gunakan fitur resep untuk memberi alternatif menu yang lebih realistis dan mudah dijalankan.</li>
+      </ul>
+    </div>
+
+    <h3 class="subhead">C. Untuk Dokter / Perawat / Tenaga Kesehatan Lain</h3>
+    <div class="panel">
+      <ul>
+        <li>Gunakan sebagai alat edukasi pendamping, bukan pengganti penilaian klinis profesional.</li>
+        <li>Manfaatkan ringkasan kondisi dan pola makan untuk memperkuat komunikasi dengan pasien.</li>
+        <li>Tinjau ulang rekomendasi pada pasien risiko tinggi, pasien geriatri, ibu hamil, dan kasus kompleks.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 5</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2 class="section-title">11. Menu Aplikasi dan Fungsinya</h2>
+    <div class="divider"></div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Menu</th>
+          <th>Fungsi Utama</th>
+          <th>Manfaat Bagi Pengguna</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Home</td>
+          <td>Ringkasan target harian, progress, insight singkat</td>
+          <td>Membantu pengguna langsung melihat prioritas hari itu</td>
+        </tr>
+        <tr>
+          <td>Track</td>
+          <td>Pencatatan makanan, minuman, foto makanan, berat badan</td>
+          <td>Membantu evaluasi asupan dan kebiasaan sehari-hari</td>
+        </tr>
+        <tr>
+          <td>Recipe</td>
+          <td>Rekomendasi resep berdasarkan bahan, target, dan kondisi</td>
+          <td>Memudahkan memilih menu yang aman dan praktis</td>
+        </tr>
+        <tr>
+          <td>Profile</td>
+          <td>Data diri, kondisi medis, preferensi, panduan, dan pengaturan</td>
+          <td>Menjadi pusat personalisasi dan akses bantuan</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="subhead">12. Cara Membaca Hasil di Aplikasi</h3>
+    <div class="grid-2">
+      <div class="panel">
+        <strong>Target Kalori</strong>
+        <p>Menunjukkan jumlah energi harian yang disarankan sesuai tujuan dan kondisi pengguna.</p>
+      </div>
+      <div class="panel">
+        <strong>Protein, Karbohidrat, Lemak</strong>
+        <p>Merupakan pembagian makronutrien yang disesuaikan secara personal.</p>
+      </div>
+      <div class="panel">
+        <strong>Batas Natrium / Cairan</strong>
+        <p>Penting pada hipertensi, penyakit jantung, dan gangguan ginjal.</p>
+      </div>
+      <div class="panel">
+        <strong>Status Kesesuaian Makanan</strong>
+        <p>Menjelaskan apakah makanan aman, perlu hati-hati, atau perlu dibatasi.</p>
+      </div>
+    </div>
+
+    <div class="info-callout">
+      <h3>Prinsip Penting</h3>
+      <p>
+        NutriCore AI menyederhanakan informasi, tetapi tidak menggantikan pemeriksaan langsung.
+        Pada kondisi klinis tertentu, keputusan akhir tetap harus mempertimbangkan evaluasi tenaga kesehatan.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 6</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2 class="section-title">13. Penggunaan pada Penyakit dan Multi-Kondisi</h2>
+    <div class="divider"></div>
+    <p>
+      NutriCore AI dirancang untuk membantu pengguna yang sehat maupun yang memiliki satu atau beberapa kondisi medis
+      sekaligus. Bila terdapat lebih dari satu penyakit, sistem akan menggabungkan kebutuhan diet secara aman dengan
+      prinsip prioritas klinis.
+    </p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Kondisi</th>
+          <th>Fokus Nutrisi</th>
+          <th>Contoh Penyesuaian</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Diabetes Mellitus</td>
+          <td>Kontrol karbohidrat, kualitas makanan, pola makan</td>
+          <td>Karbohidrat lebih terkontrol dan dipilih yang lebih stabil untuk gula darah</td>
+        </tr>
+        <tr>
+          <td>Hipertensi</td>
+          <td>Pembatasan natrium dan makanan tinggi garam</td>
+          <td>Saran menu dengan garam lebih rendah</td>
+        </tr>
+        <tr>
+          <td>CKD</td>
+          <td>Protein, natrium, cairan, mineral tertentu sesuai stadium</td>
+          <td>Protein dan cairan dapat diatur lebih hati-hati</td>
+        </tr>
+        <tr>
+          <td>Dyslipidemia / Penyakit Jantung</td>
+          <td>Lemak sehat, serat, pengurangan lemak jenuh</td>
+          <td>Pilihan masak panggang, kukus, atau rebus</td>
+        </tr>
+        <tr>
+          <td>Obesitas</td>
+          <td>Defisit kalori yang aman dan berkelanjutan</td>
+          <td>Target kalori lebih terkendali dan menu lebih padat nutrisi</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="subhead">Contoh Multi-Kondisi: DM + HT + CKD Stage 2</h3>
+    <div class="panel soft">
+      <ul>
+        <li>Protein disesuaikan terlebih dahulu dengan kebutuhan ginjal.</li>
+        <li>Karbohidrat tetap dikontrol untuk menjaga gula darah.</li>
+        <li>Natrium dibatasi untuk membantu tekanan darah.</li>
+        <li>Lemak dipilih dari sumber yang lebih sehat untuk melindungi kardiovaskular.</li>
+      </ul>
+    </div>
+
+    <h3 class="subhead">14. Keterbatasan dan Catatan Keselamatan</h3>
+    <div class="panel">
+      <ul>
+        <li>Hasil aplikasi adalah alat bantu edukasi dan pendamping keputusan.</li>
+        <li>Tidak menggantikan konsultasi langsung, pemeriksaan fisik, atau penilaian klinis lengkap.</li>
+        <li>Pada pasien kritis, ibu hamil, anak, lansia frail, atau pasien dengan kebutuhan khusus, diperlukan penilaian profesional lebih lanjut.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 7</span>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2 class="section-title">15. Panduan Akses, Berbagi, dan Cetak PDF</h2>
+    <div class="divider"></div>
+    <h3 class="subhead">Agar panduan mudah diakses dalam aplikasi</h3>
+    <div class="panel">
+      <ol>
+        <li>Tempatkan menu <strong>Panduan Lengkap</strong> di tab <strong>Profile</strong> atau <strong>Help Center</strong>.</li>
+        <li>Sediakan tombol <strong>Lihat PDF</strong>, <strong>Unduh PDF</strong>, dan <strong>Bagikan</strong>.</li>
+        <li>Tambahkan akses cepat dari halaman onboarding untuk pengguna baru.</li>
+      </ol>
+    </div>
+
+    <h3 class="subhead">Membagikan lewat WhatsApp, Email, atau Cetak</h3>
+    <div class="grid-2">
+      <div class="panel">
+        <strong>WhatsApp</strong>
+        <ul>
+          <li>Klik tombol <strong>Bagikan</strong>.</li>
+          <li>Pilih aplikasi WhatsApp.</li>
+          <li>Kirim file PDF ke pasien, keluarga, grup edukasi, atau rekan kerja.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <strong>Email</strong>
+        <ul>
+          <li>Pilih tombol <strong>Bagikan</strong> atau <strong>Kirim via Email</strong>.</li>
+          <li>Masukkan alamat tujuan.</li>
+          <li>Sertakan PDF sebagai lampiran panduan resmi aplikasi.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <strong>Cetak</strong>
+        <ul>
+          <li>Buka file PDF di dalam aplikasi.</li>
+          <li>Pilih tombol <strong>Print</strong>.</li>
+          <li>Gunakan untuk edukasi pasien di klinik, rumah sakit, atau komunitas.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <strong>Penyimpanan Offline</strong>
+        <ul>
+          <li>Simpan PDF di perangkat agar tetap bisa dibuka walau koneksi terbatas.</li>
+          <li>Cocok untuk edukasi lapangan, rawat jalan, dan kegiatan promosi kesehatan.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="subhead">16. Penutup</h3>
+    <p>
+      NutriCore AI dibangun dengan keyakinan bahwa kesehatan tidak harus rumit.
+      Yang dibutuhkan adalah sistem yang mampu memahami kompleksitas tubuh manusia,
+      lalu menyederhanakannya menjadi langkah yang bisa dijalani setiap hari.
+    </p>
+    <p>
+      Dengan menggabungkan nutrisi, teknologi, dan pendekatan humanis, NutriCore AI hadir
+      sebagai jembatan antara ilmu kesehatan dan kehidupan nyata.
+    </p>
+    <div class="quote">“Understand Your Body, Live Better.”</div>
+    <p class="small" style="margin-top: 22px;">
+      Dokumen ini disusun sebagai panduan resmi penggunaan NutriCore AI.
+      Developer: dr Theresia AYH. Bulan dan tahun pembuatan: April 2026.
+    </p>
+
+    <div class="footer">
+      <span>NutriCore AI Guide</span>
+      <span>Halaman 8</span>
+    </div>
+  </section>
+</body>
+</html>

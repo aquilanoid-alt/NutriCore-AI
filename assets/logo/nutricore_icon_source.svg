@@ -1,0 +1,54 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leafBase" x1="72" y1="57" x2="255" y2="282" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A4DA39"/>
+      <stop offset="0.4" stop-color="#31B648"/>
+      <stop offset="1" stop-color="#065E2E"/>
+    </linearGradient>
+    <linearGradient id="leafHighlight" x1="32" y1="48" x2="228" y2="210" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B7ED52" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#B7ED52" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="circuitBase" x1="256" y1="53" x2="491" y2="309" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#66D8D2"/>
+      <stop offset="0.45" stop-color="#1E86D6"/>
+      <stop offset="1" stop-color="#0A1B59"/>
+    </linearGradient>
+    <clipPath id="iconClip">
+      <circle cx="256" cy="256" r="200"/>
+    </clipPath>
+    <filter id="shadow" x="18" y="18" width="476" height="476" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="12"/>
+      <feGaussianBlur stdDeviation="18"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0588 0 0 0 0 0.1137 0 0 0 0 0.2745 0 0 0 0.2 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <circle cx="256" cy="256" r="200" fill="white"/>
+    <g clip-path="url(#iconClip)">
+      <rect x="56" y="56" width="200" height="400" fill="url(#leafBase)"/>
+      <rect x="256" y="56" width="200" height="400" fill="url(#circuitBase)"/>
+      <path d="M270 47C247 158 230 221 166 289C113 348 100 417 108 476H79C66 378 85 291 147 232C188 193 206 133 224 45L270 47Z" fill="white"/>
+      <path d="M112 281C126 224 164 177 227 142C179 189 157 232 145 281H112Z" fill="white"/>
+      <path d="M15 114C66 67 131 51 241 56C118 67 44 104 14 174L15 114Z" fill="url(#leafHighlight)" fill-opacity="0.72"/>
+
+      <path d="M298 104V456H319V104H298Z" fill="white"/>
+      <path d="M361 138V456H383V138H361Z" fill="white"/>
+      <path d="M424 175V456H446V175H424Z" fill="white"/>
+      <path d="M292 247L361 195V138H383V209L319 260V324H298V247H292Z" fill="white"/>
+      <path d="M355 337L424 287V175H446V301L382 351V456H355V337Z" fill="white"/>
+
+      <circle cx="309" cy="324" r="18" fill="white"/>
+      <circle cx="309" cy="324" r="8.5" fill="#2C7DD7"/>
+      <circle cx="372" cy="138" r="18" fill="white"/>
+      <circle cx="372" cy="138" r="8.5" fill="#2C7DD7"/>
+      <circle cx="435" cy="175" r="18" fill="white"/>
+      <circle cx="435" cy="175" r="8.5" fill="#2C7DD7"/>
+    </g>
+  </g>
+</svg>
