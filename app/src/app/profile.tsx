@@ -13,7 +13,7 @@ import {
   View,
 } from 'react-native';
 
-import { getApiBaseUrl, getGuideFileUrl, getGuideMetadata, type GuideMetadata } from '@/services/guide';
+import { fetchGuidePdfBlob, getApiBaseUrl, getGuideFileUrl, getGuideMetadata, type GuideMetadata } from '@/services/guide';
 
 const COLORS = {
   background: '#F7F4EE',
@@ -69,7 +69,9 @@ export default function ProfileScreen() {
 
   async function openPdf() {
     if (Platform.OS === 'web') {
-      openInNewTab(guideFileUrl);
+      const blob = await fetchGuidePdfBlob();
+      const objectUrl = URL.createObjectURL(blob);
+      openInNewTab(objectUrl);
       return;
     }
 
@@ -101,7 +103,9 @@ export default function ProfileScreen() {
 
   async function printGuide() {
     if (Platform.OS === 'web') {
-      openInNewTab(guideFileUrl);
+      const blob = await fetchGuidePdfBlob();
+      const objectUrl = URL.createObjectURL(blob);
+      openInNewTab(objectUrl);
       return;
     }
 

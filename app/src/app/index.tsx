@@ -194,6 +194,12 @@ export default function HomeScreen() {
   }, [params.mode]);
 
   useEffect(() => {
+    if (!params.mode) {
+      router.replace('/welcome');
+    }
+  }, [params.mode]);
+
+  useEffect(() => {
     saveSharedPatientContext({
       appMode,
       patientName,

@@ -1,7 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Tabs, usePathname } from 'expo-router';
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import { Text, useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 
@@ -32,12 +32,46 @@ export default function TabLayout() {
           },
         }}>
         <Tabs.Screen name="welcome" options={{ href: null }} />
-        <Tabs.Screen name="index" options={{ title: 'Home' }} />
-        <Tabs.Screen name="track" options={{ title: 'Track' }} />
-        <Tabs.Screen name="label-scan" options={{ title: 'Label' }} />
-        <Tabs.Screen name="recipe" options={{ title: 'Recipe' }} />
-        <Tabs.Screen name="profile" options={{ title: 'Profile' }} />
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Home',
+            tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="⌂" />,
+          }}
+        />
+        <Tabs.Screen
+          name="track"
+          options={{
+            title: 'Track',
+            tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="≣" />,
+          }}
+        />
+        <Tabs.Screen
+          name="label-scan"
+          options={{
+            title: 'Label',
+            tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="▣" />,
+          }}
+        />
+        <Tabs.Screen
+          name="recipe"
+          options={{
+            title: 'Recipe',
+            tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="◔" />,
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Profile',
+            tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="◎" />,
+          }}
+        />
       </Tabs>
     </ThemeProvider>
   );
+}
+
+function TabEmoji({ color, symbol }: { color: string; symbol: string }) {
+  return <Text style={{ color, fontSize: 18, fontWeight: '700', marginBottom: 2 }}>{symbol}</Text>;
 }

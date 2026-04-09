@@ -13,13 +13,15 @@ import {
   View,
 } from 'react-native';
 
-import { getGuideFileUrl } from '@/services/guide';
+import { fetchGuidePdfBlob, getGuideFileUrl } from '@/services/guide';
 
 async function openGuide() {
   const guideUrl = getGuideFileUrl();
   try {
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
-      window.open(guideUrl, '_blank');
+      const blob = await fetchGuidePdfBlob();
+      const objectUrl = URL.createObjectURL(blob);
+      window.open(objectUrl, '_blank');
       return;
     }
     await Linking.openURL(guideUrl);

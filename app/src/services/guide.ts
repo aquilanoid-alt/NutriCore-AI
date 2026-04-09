@@ -37,6 +37,18 @@ export function getGuideFileUrl(): string {
   return `${API_BASE_URL}/api/v1/resources/guide/file`;
 }
 
+export async function fetchGuidePdfBlob(): Promise<Blob> {
+  const response = await fetch(getGuideFileUrl(), {
+    headers: getApiHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to load guide pdf');
+  }
+
+  return await response.blob();
+}
+
 export async function getGuideMetadata(): Promise<GuideMetadata> {
   const response = await fetch(`${API_BASE_URL}/api/v1/resources/guide`, {
     headers: getApiHeaders(),
