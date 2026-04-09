@@ -31,10 +31,21 @@ async function openGuide() {
 }
 
 function enterApp(mode: 'personal' | 'institution') {
-  router.replace({ pathname: '/', params: { mode } });
+  router.replace(mode === 'personal' ? '/?mode=personal' : '/?mode=institution');
 }
 
 export default function WelcomeScreen() {
+  const [openingGuide, setOpeningGuide] = React.useState(false);
+
+  async function handleOpenGuide() {
+    try {
+      setOpeningGuide(true);
+      await openGuide();
+    } finally {
+      setOpeningGuide(false);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -60,8 +71,8 @@ export default function WelcomeScreen() {
             <Text style={styles.secondaryText}>Masuk Mode Profesional</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => void openGuide()} style={styles.ghostButton}>
-            <Text style={styles.ghostText}>Lihat Panduan</Text>
+          <TouchableOpacity onPress={() => void handleOpenGuide()} style={styles.ghostButton} disabled={openingGuide}>
+            <Text style={styles.ghostText}>{openingGuide ? 'Memuat Panduan...' : 'Lihat Panduan'}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

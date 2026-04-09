@@ -28,6 +28,7 @@ const COLORS = {
 export default function ProfileScreen() {
   const [guide, setGuide] = useState<GuideMetadata | null>(null);
   const [loading, setLoading] = useState(true);
+  const [openingPdf, setOpeningPdf] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -68,14 +69,19 @@ export default function ProfileScreen() {
   }
 
   async function openPdf() {
-    if (Platform.OS === 'web') {
-      const blob = await fetchGuidePdfBlob();
-      const objectUrl = URL.createObjectURL(blob);
-      openInNewTab(objectUrl);
-      return;
-    }
+    try {
+      setOpeningPdf(true);
+      if (Platform.OS === 'web') {
+        const blob = await fetchGuidePdfBlob();
+        const objectUrl = URL.createObjectURL(blob);
+        openInNewTab(objectUrl);
+        return;
+      }
 
-    await WebBrowser.openBrowserAsync(guideFileUrl);
+      await WebBrowser.openBrowserAsync(guideFileUrl);
+    } finally {
+      setOpeningPdf(false);
+    }
   }
 
   async function sharePdf() {
@@ -135,7 +141,7 @@ export default function ProfileScreen() {
         </View>
 
         <View style={styles.actionRow}>
-          <ActionButton label="Lihat PDF" onPress={() => void openPdf()} />
+          <ActionButton label={openingPdf ? 'Memuat PDF...' : 'Lihat PDF'} onPress={() => void openPdf()} />
           <ActionButton label="Bagikan" onPress={() => void sharePdf()} />
         </View>
         <View style={styles.actionRow}>
