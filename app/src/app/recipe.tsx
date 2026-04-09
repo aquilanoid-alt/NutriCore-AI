@@ -185,6 +185,13 @@ export default function RecipeScreen() {
             <Text style={styles.cardText}>{productLabelSummary}</Text>
             {productServingAdvice ? <Text style={styles.note}>Anjuran: {productServingAdvice}</Text> : null}
             {productDetailContext ? <Text style={styles.cardText}>{productDetailContext}</Text> : null}
+            <Text style={styles.emphasisNote}>
+              {productLabelStatus === 'red'
+                ? 'Recipe akan lebih tegas menghindari produk ini dan mengarahkan ke bahan yang lebih aman.'
+                : productLabelStatus === 'yellow'
+                  ? 'Recipe akan membatasi pemakaian produk ini dan menekankan takaran yang lebih ketat.'
+                  : 'Recipe akan memakai produk ini dengan porsi yang tetap terukur dan lebih aman.'}
+            </Text>
           </View>
         ) : null}
 
@@ -323,6 +330,7 @@ const styles = StyleSheet.create({
   cardText: { color: COLORS.muted, fontSize: 14, lineHeight: 21, marginBottom: 5 },
   section: { color: COLORS.text, fontSize: 14, fontWeight: '700', marginTop: 10, marginBottom: 6 },
   note: { color: COLORS.blue, fontSize: 13, lineHeight: 19, marginBottom: 8 },
+  emphasisNote: { color: COLORS.text, fontSize: 13, lineHeight: 19, marginTop: 4, fontWeight: '700' },
   measurementNote: { color: COLORS.muted, fontSize: 12, lineHeight: 18, marginTop: 4, marginBottom: 8 },
   measurementSource: { color: COLORS.text, fontSize: 12, lineHeight: 18, marginBottom: 4 },
   mealTime: { color: COLORS.green, fontSize: 12, fontWeight: '800', marginBottom: 6, textTransform: 'uppercase' },

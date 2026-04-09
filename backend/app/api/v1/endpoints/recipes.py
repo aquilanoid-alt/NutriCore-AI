@@ -92,6 +92,52 @@ MEASUREMENT_SOURCE_LABELS = [
 ]
 
 
+def _extract_label_status(text: str) -> str:
+    lowered = text.lower()
+    if "status produk: tidak direkomendasikan" in lowered or "status merah" in lowered or " merah" in lowered:
+        return "red"
+    if "status produk: hati-hati" in lowered or "status kuning" in lowered or " kuning" in lowered:
+        return "yellow"
+    if "status produk: direkomendasikan" in lowered or "status hijau" in lowered or " hijau" in lowered:
+        return "green"
+    return ""
+
+
+def _product_usage_guidance(status: str, ingredient: str) -> tuple[list[str], str]:
+    ingredient_label = ingredient.title()
+    if status == "red":
+        return (
+            [
+                f"Hindari memakai {ingredient_label} sebagai bahan utama resep saat ini.",
+                "Ganti dengan bahan segar atau produk lain yang lebih aman sesuai kondisi medis.",
+                "Fokus pada masakan rumahan rendah gula, rendah natrium, dan rendah lemak jenuh.",
+            ],
+            f"Produk {ingredient_label} sedang dinilai tidak direkomendasikan, jadi resep diarahkan untuk menghindari produk ini dan beralih ke alternatif yang lebih aman.",
+        )
+    if status == "yellow":
+        return (
+            [
+                f"{ingredient_label} masih bisa dipakai, tetapi harus dibatasi sesuai takaran yang dianjurkan.",
+                "Gunakan hanya pada satu slot makan dan hindari pengulangan di hari yang sama bila memungkinkan.",
+                "Seimbangkan dengan buah, sayur, dan sumber protein segar tanpa bumbu tinggi natrium atau gula.",
+            ],
+            f"Produk {ingredient_label} masuk kategori hati-hati, jadi resep diarahkan untuk pemakaian terbatas dengan takaran yang lebih ketat.",
+        )
+    if status == "green":
+        return (
+            [
+                f"{ingredient_label} dapat dipakai dalam resep, tetapi tetap mengikuti porsi yang aman.",
+                "Utamakan teknik masak kukus, rebus, panggang, atau tumis ringan.",
+                "Padukan dengan bahan segar agar kualitas menu harian tetap baik.",
+            ],
+            f"Produk {ingredient_label} dinilai lebih aman, jadi resep boleh memakainya dengan takaran yang tetap terukur.",
+        )
+    return (
+        ["Gunakan bahan sesuai porsi harian dan tetap prioritaskan makanan segar serta teknik masak yang sehat."],
+        "Belum ada status produk yang kuat, jadi resep memakai prinsip makan seimbang umum.",
+    )
+
+
 def _to_household_measure(name: str, grams: int) -> tuple[str, str]:
     reference = HOUSEHOLD_MEASURE_REFERENCE.get(name.lower())
     if not reference:
@@ -138,6 +184,8 @@ def _condition_modifiers(conditions_text: str) -> list[str]:
         modifiers.append("hindari produk kemasan yang baru dinilai kurang sesuai; prioritaskan bahan segar dan masakan rumahan")
     if "hati-hati" in conditions or "status kuning" in conditions:
         modifiers.append("batasi produk kemasan tertentu dan perhatikan takaran per saji")
+    if "direkomendasikan" in conditions or "status hijau" in conditions:
+        modifiers.append("produk yang lebih aman tetap dipakai dalam porsi terukur dan tidak berlebihan")
     return modifiers
 
 
@@ -216,8 +264,13 @@ def _build_variant(
 def generate_recipes(payload: RecipeRequest) -> dict:
     ingredient = payload.ingredient.strip().lower()
     calorie_target = payload.calorie_target_kcal or 1800
-    modifiers = _condition_modifiers(payload.medical_conditions)
+    combined_context = ". ".join(filter(None, [payload.medical_conditions, payload.product_label_context]))
+    modifiers = _condition_modifiers(combined_context)
+    label_status = _extract_label_status(combined_context)
+    usage_notes, usage_summary = _product_usage_guidance(label_status, ingredient)
     modifier_text = "; ".join(modifiers) if modifiers else "ikuti pola makan seimbang dan teknik masak rendah minyak"
+    if usage_summary:
+        modifier_text = f"{modifier_text}; {usage_summary}"
     variants = [
         _build_variant(
             "Varian Seimbang Harian",
@@ -248,6 +301,7 @@ def generate_recipes(payload: RecipeRequest) -> dict:
             ],
             notes=[
                 "Pola ini mendekati konsep 4 sehat 5 sempurna: ada sumber karbohidrat, lauk/protein, sayur, buah, dan tambahan susu rendah lemak.",
+                *usage_notes,
             ],
         ),
         _build_variant(
@@ -279,6 +333,7 @@ def generate_recipes(payload: RecipeRequest) -> dict:
             ],
             notes=[
                 "Varian ini lebih dekat dengan pola rumahan Indonesia dan tetap dibuat lebih ringan.",
+                *usage_notes,
             ],
         ),
         _build_variant(
@@ -310,6 +365,7 @@ def generate_recipes(payload: RecipeRequest) -> dict:
             ],
             notes=[
                 "Varian ini menekankan buah, sayur, dan serat yang lebih tinggi untuk pola makan yang lebih variatif.",
+                *usage_notes,
             ],
         ),
     ]
@@ -317,7 +373,7 @@ def generate_recipes(payload: RecipeRequest) -> dict:
     return {
         "recipes": variants[0]["recipes"],
         "plan_variants": variants,
-        "modifier_notes": modifiers,
+        "modifier_notes": [*usage_notes, *modifiers],
         "plan_type": "daily_meal_plan",
         "target_calories": calorie_target,
         "total_planned_calories": variants[0]["total_planned_calories"],
