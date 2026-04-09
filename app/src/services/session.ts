@@ -30,6 +30,14 @@ export type SharedPatientContext = {
   latestProductName?: string;
   latestProductOcrText?: string;
   latestProductImageDataUrl?: string;
+  latestProductServingSize?: string;
+  latestProductCalories?: string;
+  latestProductCarbs?: string;
+  latestProductSugar?: string;
+  latestProductSodium?: string;
+  latestProductSatFat?: string;
+  latestProductProtein?: string;
+  latestProductFiber?: string;
   latestAssessment?: AssessmentResult | null;
 };
 

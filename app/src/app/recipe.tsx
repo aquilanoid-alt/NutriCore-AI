@@ -36,6 +36,7 @@ export default function RecipeScreen() {
   const [productLabelSummary, setProductLabelSummary] = useState('');
   const [productLabelStatus, setProductLabelStatus] = useState('');
   const [productServingAdvice, setProductServingAdvice] = useState('');
+  const [productDetailContext, setProductDetailContext] = useState('');
   const [recipes, setRecipes] = useState<RecipeResult | null>(null);
   const [selectedVariant, setSelectedVariant] = useState(0);
 
@@ -46,10 +47,27 @@ export default function RecipeScreen() {
       setConditions(context.medicalConditions || '');
       setPatientGroup(context.patientGroup || 'adult');
       if (context.calorieTarget) setCalorieTarget(context.calorieTarget);
-      if (context.ingredientFocus) setIngredient(context.ingredientFocus);
+      if (context.latestProductName) {
+        setIngredient(context.latestProductName);
+      } else if (context.ingredientFocus) {
+        setIngredient(context.ingredientFocus);
+      }
       setProductLabelSummary(context.latestProductLabelSummary || '');
       setProductLabelStatus(context.latestProductLabelStatus || '');
       setProductServingAdvice(context.latestProductServingAdvice || '');
+      const detailLines = [
+        context.latestProductName ? `Produk terakhir: ${context.latestProductName}` : '',
+        context.latestProductServingSize ? `Takaran saji: ${context.latestProductServingSize} g` : '',
+        context.latestProductCalories ? `Energi: ${context.latestProductCalories} kkal` : '',
+        context.latestProductCarbs ? `Karbohidrat: ${context.latestProductCarbs} g` : '',
+        context.latestProductSugar ? `Gula: ${context.latestProductSugar} g` : '',
+        context.latestProductSodium ? `Natrium: ${context.latestProductSodium} mg` : '',
+        context.latestProductSatFat ? `Lemak jenuh: ${context.latestProductSatFat} g` : '',
+        context.latestProductProtein ? `Protein: ${context.latestProductProtein} g` : '',
+        context.latestProductFiber ? `Serat: ${context.latestProductFiber} g` : '',
+        context.latestProductLabelReason ? `Alasan penilaian: ${context.latestProductLabelReason}` : '',
+      ].filter(Boolean);
+      setProductDetailContext(detailLines.join('. '));
     }, [])
   );
 
@@ -57,10 +75,10 @@ export default function RecipeScreen() {
     try {
       const result = await generateRecipes({
         ingredient,
-        medical_conditions: [conditions, productLabelSummary].filter(Boolean).join('. '),
+        medical_conditions: [conditions, productLabelSummary, productDetailContext].filter(Boolean).join('. '),
         calorie_target_kcal: calorieTarget ? Number(calorieTarget) : undefined,
         patient_group: patientGroup,
-        product_label_context: productLabelSummary,
+        product_label_context: [productLabelSummary, productDetailContext, productServingAdvice].filter(Boolean).join('. '),
       });
       setRecipes(result);
       setSelectedVariant(0);
@@ -109,7 +127,7 @@ export default function RecipeScreen() {
         medical_conditions: conditions,
         calorie_target_kcal: calorieTarget ? Number(calorieTarget) : undefined,
         patient_group: patientGroup,
-        product_label_context: productLabelSummary,
+        product_label_context: [productLabelSummary, productDetailContext, productServingAdvice].filter(Boolean).join('. '),
         variant_index: selectedVariant,
       });
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -133,7 +151,7 @@ export default function RecipeScreen() {
         medical_conditions: conditions,
         calorie_target_kcal: calorieTarget ? Number(calorieTarget) : undefined,
         patient_group: patientGroup,
-        product_label_context: productLabelSummary,
+        product_label_context: [productLabelSummary, productDetailContext, productServingAdvice].filter(Boolean).join('. '),
         variant_index: selectedVariant,
       });
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -166,6 +184,7 @@ export default function RecipeScreen() {
             </View>
             <Text style={styles.cardText}>{productLabelSummary}</Text>
             {productServingAdvice ? <Text style={styles.note}>Anjuran: {productServingAdvice}</Text> : null}
+            {productDetailContext ? <Text style={styles.cardText}>{productDetailContext}</Text> : null}
           </View>
         ) : null}
 

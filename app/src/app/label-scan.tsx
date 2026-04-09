@@ -67,6 +67,13 @@ export default function LabelScanScreen() {
   const [statusMessage, setStatusMessage] = useState('');
   const [statusTone, setStatusTone] = useState<'info' | 'success' | 'error'>('info');
 
+  function numericValueToString(value: number | null | undefined, fallback: string): string {
+    if (value != null) {
+      return String(value);
+    }
+    return fallback;
+  }
+
   useFocusEffect(
     React.useCallback(() => {
       const context = loadSharedPatientContext();
@@ -92,6 +99,24 @@ export default function LabelScanScreen() {
     if (parsed.protein_g != null) setProductProtein(String(parsed.protein_g));
     if (parsed.fiber_g != null) setProductFiber(String(parsed.fiber_g));
     setOcrText(parsed.ocr_text || '');
+
+    const context = loadSharedPatientContext();
+    if (context) {
+      saveSharedPatientContext({
+        ...context,
+        latestProductName: parsed.product_name || productName || '',
+        latestProductOcrText: parsed.ocr_text || '',
+        latestProductImageDataUrl: imageDataUrl,
+        latestProductServingSize: parsed.serving_size_g != null ? String(parsed.serving_size_g) : servingSize,
+        latestProductCalories: parsed.calories_kcal != null ? String(parsed.calories_kcal) : productCalories,
+        latestProductCarbs: parsed.carbs_g != null ? String(parsed.carbs_g) : productCarbs,
+        latestProductSugar: parsed.sugar_g != null ? String(parsed.sugar_g) : productSugar,
+        latestProductSodium: parsed.sodium_mg != null ? String(parsed.sodium_mg) : productSodium,
+        latestProductSatFat: parsed.saturated_fat_g != null ? String(parsed.saturated_fat_g) : productSatFat,
+        latestProductProtein: parsed.protein_g != null ? String(parsed.protein_g) : productProtein,
+        latestProductFiber: parsed.fiber_g != null ? String(parsed.fiber_g) : productFiber,
+      });
+    }
   }
 
   async function runAnalysis(overrides?: Partial<ProductLabelScanResult>) {
@@ -116,6 +141,14 @@ export default function LabelScanScreen() {
         latestProductName: overrides?.product_name ?? productName ?? 'Produk',
         latestProductOcrText: overrides?.ocr_text ?? ocrText,
         latestProductImageDataUrl: imageDataUrl,
+        latestProductServingSize: numericValueToString(overrides?.serving_size_g, servingSize),
+        latestProductCalories: numericValueToString(overrides?.calories_kcal, productCalories),
+        latestProductCarbs: numericValueToString(overrides?.carbs_g, productCarbs),
+        latestProductSugar: numericValueToString(overrides?.sugar_g, productSugar),
+        latestProductSodium: numericValueToString(overrides?.sodium_mg, productSodium),
+        latestProductSatFat: numericValueToString(overrides?.saturated_fat_g, productSatFat),
+        latestProductProtein: numericValueToString(overrides?.protein_g, productProtein),
+        latestProductFiber: numericValueToString(overrides?.fiber_g, productFiber),
         latestProductLabelSummary: response.summary,
         latestProductLabelStatus: response.status,
         latestProductLabelReason: response.reason,
