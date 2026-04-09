@@ -111,6 +111,28 @@ def build_styles():
             spaceAfter=10,
         )
     )
+    styles.add(
+        ParagraphStyle(
+            name="TableCell",
+            parent=styles["BodyText"],
+            fontName="Helvetica",
+            fontSize=8.4,
+            leading=10.5,
+            textColor=colors.HexColor("#10233F"),
+            spaceAfter=0,
+        )
+    )
+    styles.add(
+        ParagraphStyle(
+            name="TableHead",
+            parent=styles["BodyText"],
+            fontName="Helvetica-Bold",
+            fontSize=8.8,
+            leading=11,
+            textColor=colors.HexColor("#102A6D"),
+            spaceAfter=0,
+        )
+    )
     return styles
 
 
@@ -685,6 +707,7 @@ def build_story():
                 "Pada Mode Profesional, dokumen ekspor dapat memuat nama dan alamat instansi, nomor rekam medis, nomor kunjungan, alamat pasien, jenis pembayaran atau penjamin, NIK, nomor BPJS, rujukan atau konsulan, serta tanda tangan petugas gizi dan petugas medis.",
                 "Pada Mode Pribadi, dokumen dibuat lebih ringkas dan mengutamakan kebutuhan tracking personal, tanpa menampilkan field institusi resmi seperti nomor rekam medis.",
                 "Format Excel multi-sheet memudahkan pencatatan Overview, Nutrition Targets, Recommendations, dan Clinical Notes.",
+                "Recipe kini membaca status hasil analisis label produk secara lebih otomatis: status merah membuat rekomendasi lebih tegas menghindari produk tersebut, status kuning memberi batas takaran yang lebih ketat, dan status hijau memberi saran pemakaian yang tetap aman serta terukur.",
             ],
         ),
         (
@@ -699,7 +722,18 @@ def build_story():
             ],
         ),
         (
-            "17. Referensi yang Digunakan",
+            "17. Batasan Produksi Saat Ini",
+            [
+                "Versi web saat ini sudah dapat dipakai kerja dengan alur utama Home, Track, Label, Recipe, Profile, panduan PDF, dan ekspor dokumen.",
+                "Frontend sudah online di Vercel, sedangkan backend saat ini masih memakai tunnel ngrok ke laptop lokal. Artinya backend hanya aktif selama laptop menyala, backend FastAPI berjalan, dan sesi ngrok belum tertutup.",
+                "Bila terminal backend atau terminal ngrok ditutup, fitur analisis, recipe, label, tracking, dan ekspor online akan berhenti merespons sampai dijalankan kembali.",
+                "OCR scan label dari foto saat ini paling stabil pada pemakaian lokal/web dari macOS, karena engine OCR backend masih bergantung pada komponen sistem macOS. Untuk server cloud Linux, OCR foto label masih perlu diganti ke engine yang kompatibel server.",
+                "Karena backend belum berada di server publik permanen, URL backend dari ngrok dapat berubah setiap kali sesi ngrok dibuka ulang. Bila URL berubah, environment variable frontend perlu diperbarui lagi.",
+                "Karena itu, untuk produksi penuh 24 jam dan multi-pengguna, langkah berikut yang paling penting adalah memindahkan backend ke hosting permanen dan mengganti OCR ke solusi server-side.",
+            ],
+        ),
+        (
+            "18. Referensi yang Digunakan",
             [
                 "WHO Child Growth Standards 2006 untuk penilaian 0–5 tahun: berat menurut umur, panjang/tinggi menurut umur, berat menurut panjang/tinggi, IMT menurut umur, dan lingkar kepala menurut umur.",
                 "WHO Growth Reference 2007 untuk 5–19 tahun: IMT menurut umur, tinggi menurut umur, dan berat menurut umur pada rentang referensi yang tersedia.",
@@ -713,7 +747,7 @@ def build_story():
             ],
         ),
         (
-            "18. Penutup",
+            "19. Penutup",
             [
                 "NutriCore AI dibangun dengan keyakinan bahwa kesehatan tidak harus rumit. Yang dibutuhkan adalah sistem yang mampu memahami kompleksitas tubuh manusia, lalu menyederhanakannya menjadi langkah yang bisa dijalani setiap hari.",
                 "Dengan menggabungkan nutrisi, teknologi, dan pendekatan humanis, NutriCore AI hadir sebagai jembatan antara ilmu kesehatan dan kehidupan nyata.",
@@ -813,6 +847,7 @@ def build_story():
                 "Pilih bahan utama seperti tempe, tahu, ayam, ikan, atau bahan lain.",
                 "Lihat beberapa varian menu harian yang lebih variatif, termasuk buah dan pola makan seimbang.",
                 "Setiap rencana dibagi menjadi sarapan, snack, makan siang, snack sore, dan makan malam.",
+                "Jika hasil analisis label terakhir berstatus merah, recipe akan lebih tegas menghindari produk itu. Jika kuning, recipe akan membatasi takaran. Jika hijau, recipe akan memberi pemakaian yang lebih aman namun tetap terukur.",
             ],
             ["Bahan utama", "Kondisi medis", "Target kalori", "Varian menu", "Jadwal makan harian"],
         ),
@@ -876,6 +911,84 @@ def build_story():
         )
     )
     story.append(urt_table)
+
+    story.append(PageBreak())
+    story.append(Paragraph("Lampiran C. Checklist Final Siap Dipakai Kerja", styles["Section"]))
+    story.append(
+        Paragraph(
+            "Checklist ini dibuat sederhana agar mudah dipakai setiap hari sebelum mulai bekerja menggunakan NutriCore AI.",
+            styles["BodyCustom"],
+        )
+    )
+    checklist_rows = [
+        [
+            Paragraph("Bagian", styles["TableHead"]),
+            Paragraph("Sudah Aman", styles["TableHead"]),
+            Paragraph("Perlu Perhatian", styles["TableHead"]),
+        ],
+        [
+            Paragraph("Frontend web Vercel", styles["TableCell"]),
+            Paragraph("Bisa dibuka online melalui link Vercel.", styles["TableCell"]),
+            Paragraph("Perlu redeploy lagi setiap kali ada perubahan kode baru.", styles["TableCell"]),
+        ],
+        [
+            Paragraph("Backend FastAPI", styles["TableCell"]),
+            Paragraph("Berjalan lokal di laptop dan sudah bisa terhubung ke web melalui ngrok.", styles["TableCell"]),
+            Paragraph("Belum 24 jam permanen; berhenti jika terminal backend atau ngrok ditutup.", styles["TableCell"]),
+        ],
+        [
+            Paragraph("Home / Analisis Status Gizi", styles["TableCell"]),
+            Paragraph("Sudah menghasilkan ringkasan, target nutrisi, dan sinkronisasi ke menu lain.", styles["TableCell"]),
+            Paragraph("Tetap perlu uji cepat setelah URL ngrok berubah.", styles["TableCell"]),
+        ],
+        [
+            Paragraph("Track", styles["TableCell"]),
+            Paragraph("Sudah bisa dipakai mencatat asupan harian.", styles["TableCell"]),
+            Paragraph("Perlu cek ulang bila target nutrisi dari Home baru saja diperbarui.", styles["TableCell"]),
+        ],
+        [
+            Paragraph("Label", styles["TableCell"]),
+            Paragraph("Analisis manual dan sinkronisasi ke Recipe sudah bekerja lebih baik.", styles["TableCell"]),
+            Paragraph("OCR foto label masih paling stabil pada pemakaian lokal macOS dan belum ideal untuk server cloud.", styles["TableCell"]),
+        ],
+        [
+            Paragraph("Recipe", styles["TableCell"]),
+            Paragraph("Sudah membaca hasil label lebih otomatis dan menyesuaikan status merah, kuning, dan hijau.", styles["TableCell"]),
+            Paragraph("Masih perlu evaluasi berkala bila ingin perilaku produk kemasan makin presisi.", styles["TableCell"]),
+        ],
+        [
+            Paragraph("Panduan PDF", styles["TableCell"]),
+            Paragraph("Sudah tersedia, bisa dibuka, dibagikan, dan dicetak.", styles["TableCell"]),
+            Paragraph("Perlu digenerate ulang bila ada update fitur besar berikutnya.", styles["TableCell"]),
+        ],
+        [
+            Paragraph("Dokumen ekspor", styles["TableCell"]),
+            Paragraph("PDF, DOC, CSV, dan XLSX sudah siap dipakai sebagai catatan pribadi atau profesional.", styles["TableCell"]),
+            Paragraph("Perlu review akhir bila dipakai sebagai dokumen resmi institusi.", styles["TableCell"]),
+        ],
+    ]
+    checklist_table = Table(checklist_rows, colWidths=[36 * mm, 59 * mm, 73 * mm])
+    checklist_table.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#EEF4F8")),
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#DCE5EE")),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 7),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 7),
+                ("TOPPADDING", (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+            ]
+        )
+    )
+    story.append(checklist_table)
+    story.append(Spacer(1, 10))
+    for item in [
+        "Sebelum mulai kerja, pastikan tiga hal hidup: backend FastAPI, tunnel ngrok, dan frontend web terbaru di Vercel.",
+        "Bila menu analisis tiba-tiba tidak merespons, cek dulu apakah URL ngrok masih aktif dan belum berubah.",
+        "Untuk penggunaan profesional yang lebih stabil, target berikutnya adalah memindahkan backend ke hosting permanen dan mengganti OCR label ke engine server-side.",
+    ]:
+        story.append(bullet(item, styles))
 
     return story
 

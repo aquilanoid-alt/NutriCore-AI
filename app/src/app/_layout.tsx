@@ -22,12 +22,16 @@ export default function TabLayout() {
             display: hideTabBar ? 'none' : 'flex',
             backgroundColor: '#FFFFFF',
             borderTopColor: '#DCE5EE',
-            height: 62,
-            paddingBottom: 8,
-            paddingTop: 8,
+            height: 68,
+            paddingBottom: 9,
+            paddingTop: 7,
+          },
+          tabBarItemStyle: {
+            minWidth: 0,
+            paddingHorizontal: 2,
           },
           tabBarLabelStyle: {
-            fontSize: 12,
+            fontSize: 10,
             fontWeight: '700',
           },
         }}>
@@ -35,7 +39,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: 'Home',
+            title: 'Beranda',
             tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="⌂" />,
           }}
         />
@@ -56,14 +60,14 @@ export default function TabLayout() {
         <Tabs.Screen
           name="recipe"
           options={{
-            title: 'Recipe',
+            title: 'Resep',
             tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="◔" />,
           }}
         />
         <Tabs.Screen
           name="profile"
           options={{
-            title: 'Profile',
+            title: 'Profil',
             tabBarIcon: ({ color }) => <TabEmoji color={color} symbol="◎" />,
           }}
         />
@@ -73,5 +77,5 @@ export default function TabLayout() {
 }
 
 function TabEmoji({ color, symbol }: { color: string; symbol: string }) {
-  return <Text style={{ color, fontSize: 18, fontWeight: '700', marginBottom: 2 }}>{symbol}</Text>;
+  return <Text style={{ color, fontSize: 17, fontWeight: '700', marginBottom: 1 }}>{symbol}</Text>;
 }

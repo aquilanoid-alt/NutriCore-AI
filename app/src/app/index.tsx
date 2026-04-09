@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { router, useLocalSearchParams } from 'expo-router';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
@@ -193,11 +193,9 @@ export default function HomeScreen() {
     }
   }, [params.mode]);
 
-  useEffect(() => {
-    if (!params.mode) {
-      router.replace('/welcome');
-    }
-  }, [params.mode]);
+  if (!params.mode) {
+    return <Redirect href="/welcome" />;
+  }
 
   useEffect(() => {
     saveSharedPatientContext({
