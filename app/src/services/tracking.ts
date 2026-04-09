@@ -1,4 +1,4 @@
-import { getApiBaseUrl } from './guide';
+import { getApiBaseUrl, getApiHeaders } from './guide';
 
 export type TrackingResult = {
   items: Array<{ name: string; matched: boolean; calories?: number; protein?: number; carbs?: number; fat?: number }>;
@@ -19,7 +19,7 @@ export async function analyzeDailyTracking(payload: {
 }): Promise<TrackingResult> {
   const response = await fetch(`${getApiBaseUrl()}/api/v1/tracking/analyze-day`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getApiHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(payload),
   });
 

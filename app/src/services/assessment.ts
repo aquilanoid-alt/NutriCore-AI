@@ -1,4 +1,4 @@
-import { getApiBaseUrl } from './guide';
+import { getApiBaseUrl, getApiHeaders } from './guide';
 
 export type PatientGroup =
   | 'infant'
@@ -65,9 +65,9 @@ export type AssessmentResult = {
 export async function analyzeAssessment(payload: AssessmentPayload): Promise<AssessmentResult> {
   const response = await fetch(`${getApiBaseUrl()}/api/v1/assessment/analyze`, {
     method: 'POST',
-    headers: {
+    headers: getApiHeaders({
       'Content-Type': 'application/json',
-    },
+    }),
     body: JSON.stringify(payload),
   });
 

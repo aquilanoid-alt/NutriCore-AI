@@ -1,4 +1,4 @@
-import { getApiBaseUrl } from './guide';
+import { getApiBaseUrl, getApiHeaders } from './guide';
 
 export type SummaryExportPayload = {
   app_mode: 'personal' | 'institution';
@@ -49,9 +49,9 @@ export type SummaryExportPayload = {
 export async function exportSummary(payload: SummaryExportPayload, format: 'pdf' | 'csv' | 'doc' | 'xlsx'): Promise<Blob> {
   const response = await fetch(`${getApiBaseUrl()}/api/v1/exports/summary?format=${format}`, {
     method: 'POST',
-    headers: {
+    headers: getApiHeaders({
       'Content-Type': 'application/json',
-    },
+    }),
     body: JSON.stringify(payload),
   });
 

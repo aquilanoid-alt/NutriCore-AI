@@ -1,4 +1,4 @@
-import { getApiBaseUrl } from './guide';
+import { getApiBaseUrl, getApiHeaders } from './guide';
 
 export type ProductLabelAnalysis = {
   status: 'green' | 'yellow' | 'red';
@@ -38,7 +38,7 @@ export async function analyzeProductLabel(payload: {
 }): Promise<ProductLabelAnalysis> {
   const response = await fetch(`${getApiBaseUrl()}/api/v1/product-labels/analyze`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getApiHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(payload),
   });
 
@@ -58,7 +58,7 @@ export async function scanProductLabelImage(payload: {
 }): Promise<ProductLabelScanResult> {
   const response = await fetch(`${getApiBaseUrl()}/api/v1/product-labels/scan-image`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getApiHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(payload),
   });
 

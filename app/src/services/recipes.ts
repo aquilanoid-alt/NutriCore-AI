@@ -1,4 +1,4 @@
-import { getApiBaseUrl } from './guide';
+import { getApiBaseUrl, getApiHeaders } from './guide';
 
 export type RecipeResult = {
   recipes: Array<{
@@ -42,7 +42,7 @@ export async function generateRecipes(payload: {
 }): Promise<RecipeResult> {
   const response = await fetch(`${getApiBaseUrl()}/api/v1/recipes/generate`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getApiHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(payload),
   });
 
@@ -63,7 +63,7 @@ export async function exportRecipePlanPdf(payload: {
 }): Promise<Blob> {
   const response = await fetch(`${getApiBaseUrl()}/api/v1/recipes/export-plan-pdf`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getApiHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(payload),
   });
 
