@@ -16,7 +16,7 @@ import {
 
 import { analyzeAssessment, type AssessmentResult, type PatientGroup } from '@/services/assessment';
 import { exportSummary } from '@/services/exports';
-import { saveSharedPatientContext, type AppMode } from '@/services/session';
+import { loadSelectedAppMode, saveSharedPatientContext, type AppMode } from '@/services/session';
 
 const COLORS = {
   background: '#F7F4EE',
@@ -75,7 +75,7 @@ function formatMetricLabel(key: string): string {
 export default function HomeScreen() {
   const params = useLocalSearchParams<{ mode?: string }>();
   const now = useMemo(() => new Date(), []);
-  const [appMode, setAppMode] = useState<AppMode>('personal');
+  const [appMode, setAppMode] = useState<AppMode | null>(null);
   const [patientName, setPatientName] = useState('Pengguna NutriCore AI');
   const [institutionName, setInstitutionName] = useState('NutriCore AI Clinic');
   const [institutionAddress, setInstitutionAddress] = useState('');
@@ -190,16 +190,21 @@ export default function HomeScreen() {
   useEffect(() => {
     if (params.mode === 'institution' || params.mode === 'personal') {
       setAppMode(params.mode);
+      return;
+    }
+    const savedMode = loadSelectedAppMode();
+    if (savedMode) {
+      setAppMode(savedMode);
     }
   }, [params.mode]);
 
-  if (!params.mode) {
+  if (!params.mode && !appMode) {
     return <Redirect href="/welcome" />;
   }
 
   useEffect(() => {
     saveSharedPatientContext({
-      appMode,
+      appMode: appMode ?? 'personal',
       patientName,
       patientGroup,
       institutionName,
@@ -329,7 +334,7 @@ export default function HomeScreen() {
     try {
       const blob = await exportSummary(
         {
-          app_mode: appMode,
+          app_mode: appMode ?? 'personal',
           patient_name: patientName || 'Pengguna NutriCore AI',
           patient_group: patientGroupLabel(patientGroup),
           institution_name: isInstitutionMode ? institutionName || '-' : 'Catatan Pribadi',

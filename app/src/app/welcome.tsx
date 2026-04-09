@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 import { fetchGuidePdfBlob, getGuideFileUrl } from '@/services/guide';
+import { saveSelectedAppMode } from '@/services/session';
 
 async function openGuide() {
   const guideUrl = getGuideFileUrl();
@@ -21,7 +22,7 @@ async function openGuide() {
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
       const blob = await fetchGuidePdfBlob();
       const objectUrl = URL.createObjectURL(blob);
-      window.open(objectUrl, '_blank');
+      window.location.assign(objectUrl);
       return;
     }
     await Linking.openURL(guideUrl);
@@ -31,7 +32,8 @@ async function openGuide() {
 }
 
 function enterApp(mode: 'personal' | 'institution') {
-  router.replace(mode === 'personal' ? '/?mode=personal' : '/?mode=institution');
+  saveSelectedAppMode(mode);
+  router.replace('/');
 }
 
 export default function WelcomeScreen() {

@@ -42,7 +42,9 @@ export type SharedPatientContext = {
 };
 
 const STORAGE_KEY = 'nutricore-shared-context';
+const MODE_STORAGE_KEY = 'nutricore-selected-mode';
 let memoryContext: SharedPatientContext | null = null;
+let memoryMode: AppMode | null = null;
 
 export function saveSharedPatientContext(context: SharedPatientContext) {
   memoryContext = context;
@@ -64,4 +66,23 @@ export function loadSharedPatientContext(): SharedPatientContext | null {
     }
   }
   return memoryContext;
+}
+
+export function saveSelectedAppMode(mode: AppMode) {
+  memoryMode = mode;
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    window.localStorage.setItem(MODE_STORAGE_KEY, mode);
+  }
+}
+
+export function loadSelectedAppMode(): AppMode | null {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    const raw = window.localStorage.getItem(MODE_STORAGE_KEY);
+    if (raw === 'personal' || raw === 'institution') {
+      memoryMode = raw;
+      return raw;
+    }
+    return memoryMode;
+  }
+  return memoryMode;
 }

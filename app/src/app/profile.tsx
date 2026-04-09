@@ -61,12 +61,13 @@ export default function ProfileScreen() {
 
   const guideFileUrl = getGuideFileUrl();
 
-  function openInNewTab(url: string) {
-    const webWindow = globalThis as typeof globalThis & {
-      open?: (target: string, features?: string, noopener?: string) => void;
-    };
-    webWindow.open?.(url, '_blank', 'noopener,noreferrer');
-  }
+function openInNewTab(url: string) {
+  const webWindow = globalThis as typeof globalThis & {
+    open?: (target: string, features?: string, noopener?: string) => void;
+    location?: { assign: (url: string) => void };
+  };
+  webWindow.location?.assign(url);
+}
 
   async function openPdf() {
     try {
