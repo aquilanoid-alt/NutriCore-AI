@@ -1,7 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Tabs, usePathname } from 'expo-router';
 import React from 'react';
-import { Text, useColorScheme } from 'react-native';
+import { Platform, Text, useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 
@@ -11,7 +11,7 @@ export default function TabLayout() {
   const hideTabBar = pathname === '/welcome';
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
+      {Platform.OS === 'web' ? null : <AnimatedSplashOverlay />}
       <Tabs
         initialRouteName="welcome"
         screenOptions={{

@@ -32,7 +32,7 @@ async function openGuide() {
 
 function enterApp(mode: 'personal' | 'institution') {
   saveSelectedAppMode(mode);
-  router.replace('/');
+  router.replace((mode === 'personal' ? '/personal-entry' : '/professional-entry') as never);
 }
 
 export default function WelcomeScreen() {
