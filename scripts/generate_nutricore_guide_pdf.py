@@ -643,6 +643,7 @@ def build_story():
             [
                 "Saat aplikasi pertama dibuka, pengguna akan melihat halaman depan welcome yang modern tanpa menu bawah, sehingga fokus utama langsung ke pilihan penggunaan.",
                 "Di halaman depan tersedia tiga aksi utama: Mulai Mode Pribadi, Masuk Mode Profesional, dan Lihat Panduan.",
+                "Versi web sekarang juga dapat dipasang sebagai web app ke home screen HP atau desktop browser, dengan nama dan icon NutriCore AI.",
                 "Mode Pribadi menampilkan form yang lebih ringkas untuk catatan personal. Mode Profesional menampilkan data resmi yang lebih lengkap untuk klinik, puskesmas, rumah sakit, atau institusi lain.",
                 "Setelah memilih mode di halaman depan, pengguna masuk ke menu Home dan tidak perlu memilih mode lagi di dalam form. Jika ingin mengganti mode, gunakan tombol kembali ke halaman depan.",
                 "Di dalam Home, pilih kategori pasien: bayi, balita, anak/remaja, dewasa, lansia, ibu hamil, atau ibu menyusui.",
@@ -668,6 +669,7 @@ def build_story():
                 "Bila hasil OCR masih belum lengkap, pengguna dapat memperbaiki angka secara manual lalu menekan tombol yang sama untuk analisis ulang.",
                 "Hasil analisis produk akan ikut terbawa ke menu Recipe agar rekomendasi resep menjadi lebih otomatis menyesuaikan produk terakhir yang dinilai.",
                 "Gunakan tab Profile untuk membuka panduan PDF, membagikannya, atau mencetaknya.",
+                "Pada penggunaan dari HP, selalu buka link utama aplikasi atau shortcut home screen terbaru agar route aplikasi masuk normal dan tidak membuka path lama yang sudah tidak dipakai.",
                 "Gunakan fitur ekspor untuk membuat dokumen PDF, DOC, CSV, atau Excel (.xlsx) sebagai catatan tracking pribadi atau dokumen pendamping petugas gizi/medis.",
                 "Lihat target harian, catat makanan, gunakan rekomendasi resep, dan ikuti jadwal harian.",
                 "Petugas gizi dan tenaga kesehatan dapat memakai aplikasi ini sebagai alat bantu edukasi dan pendamping konseling.",
@@ -725,10 +727,12 @@ def build_story():
             "17. Batasan Produksi Saat Ini",
             [
                 "Versi web saat ini sudah dapat dipakai kerja dengan alur utama Home, Track, Label, Recipe, Profile, panduan PDF, dan ekspor dokumen.",
+                "Frontend juga sudah mendukung pola web app / PWA dasar, sehingga pengguna dapat menambahkan NutriCore AI ke home screen dan membukanya seperti aplikasi ringan.",
                 "Frontend sudah online di Vercel, sedangkan backend saat ini masih memakai tunnel ngrok ke laptop lokal. Artinya backend hanya aktif selama laptop menyala, backend FastAPI berjalan, dan sesi ngrok belum tertutup.",
                 "Bila terminal backend atau terminal ngrok ditutup, fitur analisis, recipe, label, tracking, dan ekspor online akan berhenti merespons sampai dijalankan kembali.",
                 "OCR scan label dari foto saat ini paling stabil pada pemakaian lokal/web dari macOS, karena engine OCR backend masih bergantung pada komponen sistem macOS. Untuk server cloud Linux, OCR foto label masih perlu diganti ke engine yang kompatibel server.",
                 "Karena backend belum berada di server publik permanen, URL backend dari ngrok dapat berubah setiap kali sesi ngrok dibuka ulang. Bila URL berubah, environment variable frontend perlu diperbarui lagi.",
+                "Jika aplikasi dibuka dari HP dan pernah muncul 404 pada versi lama, tutup shortcut atau tab lama lalu buka lagi dari link utama atau pasang ulang shortcut home screen setelah deployment terbaru aktif.",
                 "Karena itu, untuk produksi penuh 24 jam dan multi-pengguna, langkah berikut yang paling penting adalah memindahkan backend ke hosting permanen dan mengganti OCR ke solusi server-side.",
             ],
         ),
@@ -928,8 +932,8 @@ def build_story():
         ],
         [
             Paragraph("Frontend web Vercel", styles["TableCell"]),
-            Paragraph("Bisa dibuka online melalui link Vercel.", styles["TableCell"]),
-            Paragraph("Perlu redeploy lagi setiap kali ada perubahan kode baru.", styles["TableCell"]),
+            Paragraph("Bisa dibuka online melalui link Vercel dan dapat dipasang sebagai web app di home screen.", styles["TableCell"]),
+            Paragraph("Perlu redeploy lagi setiap kali ada perubahan kode baru; bila shortcut HP lama error, buka ulang dari link utama lalu pasang lagi.", styles["TableCell"]),
         ],
         [
             Paragraph("Backend FastAPI", styles["TableCell"]),
@@ -985,6 +989,7 @@ def build_story():
     story.append(Spacer(1, 10))
     for item in [
         "Sebelum mulai kerja, pastikan tiga hal hidup: backend FastAPI, tunnel ngrok, dan frontend web terbaru di Vercel.",
+        "Jika memakai HP, buka dari link utama atau shortcut home screen yang sudah diperbarui setelah deployment terbaru.",
         "Bila menu analisis tiba-tiba tidak merespons, cek dulu apakah URL ngrok masih aktif dan belum berubah.",
         "Untuk penggunaan profesional yang lebih stabil, target berikutnya adalah memindahkan backend ke hosting permanen dan mengganti OCR label ke engine server-side.",
     ]:
