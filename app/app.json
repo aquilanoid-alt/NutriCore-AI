@@ -21,7 +21,11 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/nutricore-icon.png",
+      "name": "NutriCore AI",
+      "shortName": "NutriCore AI",
+      "themeColor": "#06142D",
+      "backgroundColor": "#06142D"
     },
     "plugins": [
       "expo-router",

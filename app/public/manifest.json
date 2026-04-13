@@ -1,0 +1,26 @@
+{
+  "name": "NutriCore AI",
+  "short_name": "NutriCore AI",
+  "description": "Web app NutriCore AI untuk analisis status gizi, tracking, label produk, dan rekomendasi resep.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#06142D",
+  "theme_color": "#06142D",
+  "lang": "id-ID",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
