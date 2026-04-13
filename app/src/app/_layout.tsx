@@ -36,6 +36,8 @@ export default function TabLayout() {
           },
         }}>
         <Tabs.Screen name="welcome" options={{ href: null }} />
+        <Tabs.Screen name="personal-entry" options={{ href: null }} />
+        <Tabs.Screen name="professional-entry" options={{ href: null }} />
         <Tabs.Screen
           name="index"
           options={{
