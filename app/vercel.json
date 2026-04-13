@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    { "source": "/welcome", "destination": "/" },
+    { "source": "/index", "destination": "/" },
+    { "source": "/track", "destination": "/" },
+    { "source": "/label-scan", "destination": "/" },
+    { "source": "/recipe", "destination": "/" },
+    { "source": "/profile", "destination": "/" },
+    { "source": "/personal-entry", "destination": "/" },
+    { "source": "/professional-entry", "destination": "/" }
+  ]
+}
