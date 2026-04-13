@@ -1,4 +1,6 @@
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000';
+let guideBlobPromise: Promise<Blob> | null = null;
+let guideObjectUrl: string | null = null;
 
 function shouldUseNgrokBypassHeader(url: string): boolean {
   return url.includes('ngrok-free.app') || url.includes('ngrok-free.dev') || url.includes('ngrok.app');
@@ -38,15 +40,34 @@ export function getGuideFileUrl(): string {
 }
 
 export async function fetchGuidePdfBlob(): Promise<Blob> {
-  const response = await fetch(getGuideFileUrl(), {
-    headers: getApiHeaders(),
-  });
+  if (!guideBlobPromise) {
+    guideBlobPromise = fetch(getGuideFileUrl(), {
+      headers: getApiHeaders(),
+    }).then(async (response) => {
+      if (!response.ok) {
+        guideBlobPromise = null;
+        throw new Error('Failed to load guide pdf');
+      }
 
-  if (!response.ok) {
-    throw new Error('Failed to load guide pdf');
+      return await response.blob();
+    });
   }
 
-  return await response.blob();
+  return await guideBlobPromise;
+}
+
+export async function getCachedGuidePdfObjectUrl(): Promise<string> {
+  if (guideObjectUrl) {
+    return guideObjectUrl;
+  }
+
+  const blob = await fetchGuidePdfBlob();
+  guideObjectUrl = URL.createObjectURL(blob);
+  return guideObjectUrl;
+}
+
+export async function preloadGuidePdf(): Promise<void> {
+  await fetchGuidePdfBlob();
 }
 
 export async function getGuideMetadata(): Promise<GuideMetadata> {

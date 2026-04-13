@@ -13,15 +13,14 @@ import {
   View,
 } from 'react-native';
 
-import { fetchGuidePdfBlob, getGuideFileUrl } from '@/services/guide';
+import { getCachedGuidePdfObjectUrl, getGuideFileUrl, preloadGuidePdf } from '@/services/guide';
 import { saveSelectedAppMode } from '@/services/session';
 
 async function openGuide() {
   const guideUrl = getGuideFileUrl();
   try {
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
-      const blob = await fetchGuidePdfBlob();
-      const objectUrl = URL.createObjectURL(blob);
+      const objectUrl = await getCachedGuidePdfObjectUrl();
       window.location.assign(objectUrl);
       return;
     }
@@ -38,6 +37,12 @@ function enterApp(mode: 'personal' | 'institution') {
 
 export default function WelcomeScreen() {
   const [openingGuide, setOpeningGuide] = React.useState(false);
+
+  React.useEffect(() => {
+    if (Platform.OS === 'web') {
+      void preloadGuidePdf().catch(() => undefined);
+    }
+  }, []);
 
   async function handleOpenGuide() {
     try {

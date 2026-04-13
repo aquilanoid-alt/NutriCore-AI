@@ -76,6 +76,7 @@ export default function HomeScreen() {
   const params = useLocalSearchParams<{ mode?: string }>();
   const now = useMemo(() => new Date(), []);
   const [appMode, setAppMode] = useState<AppMode | null>(null);
+  const [modeResolved, setModeResolved] = useState(false);
   const [patientName, setPatientName] = useState('Pengguna NutriCore AI');
   const [institutionName, setInstitutionName] = useState('NutriCore AI Clinic');
   const [institutionAddress, setInstitutionAddress] = useState('');
@@ -190,13 +191,17 @@ export default function HomeScreen() {
   useEffect(() => {
     if (params.mode === 'institution' || params.mode === 'personal') {
       setAppMode(params.mode);
+      setModeResolved(true);
       return;
     }
     const savedMode = loadSelectedAppMode();
-    if (savedMode) {
-      setAppMode(savedMode);
-    }
+    setAppMode(savedMode);
+    setModeResolved(true);
   }, [params.mode]);
+
+  if (!modeResolved) {
+    return null;
+  }
 
   if (!params.mode && !appMode) {
     return <Redirect href="/welcome" />;
