@@ -13,7 +13,7 @@ import {
   View,
 } from 'react-native';
 
-import { getCachedGuidePdfObjectUrl, getGuideFileUrl, preloadGuidePdf } from '@/services/guide';
+import { getCachedGuidePdfObjectUrl, getGuideFileUrl } from '@/services/guide';
 import { saveSelectedAppMode } from '@/services/session';
 
 async function openGuide() {
@@ -37,12 +37,6 @@ function enterApp(mode: 'personal' | 'institution') {
 
 export default function WelcomeScreen() {
   const [openingGuide, setOpeningGuide] = React.useState(false);
-
-  React.useEffect(() => {
-    if (Platform.OS === 'web') {
-      void preloadGuidePdf().catch(() => undefined);
-    }
-  }, []);
 
   async function handleOpenGuide() {
     try {
