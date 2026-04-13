@@ -71,13 +71,13 @@ export function loadSharedPatientContext(): SharedPatientContext | null {
 export function saveSelectedAppMode(mode: AppMode) {
   memoryMode = mode;
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    window.localStorage.setItem(MODE_STORAGE_KEY, mode);
+    window.sessionStorage.setItem(MODE_STORAGE_KEY, mode);
   }
 }
 
 export function loadSelectedAppMode(): AppMode | null {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    const raw = window.localStorage.getItem(MODE_STORAGE_KEY);
+    const raw = window.sessionStorage.getItem(MODE_STORAGE_KEY);
     if (raw === 'personal' || raw === 'institution') {
       memoryMode = raw;
       return raw;
@@ -85,4 +85,11 @@ export function loadSelectedAppMode(): AppMode | null {
     return memoryMode;
   }
   return memoryMode;
+}
+
+export function clearSelectedAppMode() {
+  memoryMode = null;
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    window.sessionStorage.removeItem(MODE_STORAGE_KEY);
+  }
 }

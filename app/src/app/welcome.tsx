@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import { getCachedGuidePdfObjectUrl, getGuideFileUrl } from '@/services/guide';
-import { saveSelectedAppMode } from '@/services/session';
+import { clearSelectedAppMode, saveSelectedAppMode } from '@/services/session';
 
 async function openGuide() {
   const guideUrl = getGuideFileUrl();
@@ -42,6 +42,10 @@ function enterApp(mode: 'personal' | 'institution') {
 
 export default function WelcomeScreen() {
   const [openingGuide, setOpeningGuide] = React.useState(false);
+
+  React.useEffect(() => {
+    clearSelectedAppMode();
+  }, []);
 
   async function handleOpenGuide() {
     try {

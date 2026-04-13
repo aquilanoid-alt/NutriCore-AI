@@ -75,8 +75,8 @@ function formatMetricLabel(key: string): string {
 export default function HomeScreen() {
   const params = useLocalSearchParams<{ mode?: string }>();
   const now = useMemo(() => new Date(), []);
-  const [appMode, setAppMode] = useState<AppMode | null>(null);
-  const [modeResolved, setModeResolved] = useState(false);
+  const initialMode = params.mode === 'institution' || params.mode === 'personal' ? params.mode : loadSelectedAppMode();
+  const [appMode, setAppMode] = useState<AppMode | null>(initialMode);
   const [patientName, setPatientName] = useState('Pengguna NutriCore AI');
   const [institutionName, setInstitutionName] = useState('NutriCore AI Clinic');
   const [institutionAddress, setInstitutionAddress] = useState('');
@@ -191,17 +191,10 @@ export default function HomeScreen() {
   useEffect(() => {
     if (params.mode === 'institution' || params.mode === 'personal') {
       setAppMode(params.mode);
-      setModeResolved(true);
       return;
     }
-    const savedMode = loadSelectedAppMode();
-    setAppMode(savedMode);
-    setModeResolved(true);
+    setAppMode(loadSelectedAppMode());
   }, [params.mode]);
-
-  if (!modeResolved) {
-    return null;
-  }
 
   if (!params.mode && !appMode) {
     return <Redirect href="/welcome" />;
